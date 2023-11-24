@@ -6,16 +6,16 @@
 /*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 20:25:56 by taquino-          #+#    #+#             */
-/*   Updated: 2023/11/23 21:14:56 by taquino-         ###   ########.fr       */
+/*   Updated: 2023/11/23 21:29:20 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	found_newline(s_list *hidden)
+int	found_newline(t_list *hidden)
 {
 	int		i;
-	s_list	*current;
+	t_list	*current;
 
 	if (hidden == NULL)
 		return (0);
@@ -32,9 +32,9 @@ int	found_newline(s_list *hidden)
 
 /* Returns a pointer to the last node in our hidden */
 
-s_list	*ft_lst_get_last(s_list *hidden)
+t_list	*ft_lst_get_last(t_list *hidden)
 {
-	s_list	*current;
+	t_list	*current;
 
 	current = hidden;
 	while (current && current->next)
@@ -45,7 +45,7 @@ s_list	*ft_lst_get_last(s_list *hidden)
 /* Calculates the number of chars in the current line, including the trailing
  * \n if there is one, and allocates memory accordingly. */
 
-void	generate_line(char **line, s_list *hidden)
+void	generate_line(char **line, t_list *hidden)
 {
 	int	i;
 	int	len;
@@ -71,10 +71,10 @@ void	generate_line(char **line, s_list *hidden)
 
 /* Frees the entire hidden. */
 
-void	free_hidden(s_list *hidden)
+void	free_hidden(t_list *hidden)
 {
-	s_list	*current;
-	s_list	*next;
+	t_list	*current;
+	t_list	*next;
 
 	current = hidden;
 	while (current)
