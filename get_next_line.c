@@ -6,7 +6,7 @@
 /*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 20:24:36 by taquino-          #+#    #+#             */
-/*   Updated: 2023/11/23 21:29:16 by taquino-         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:30:52 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,17 @@
 
 char	*get_next_line(int fd)
 {
-	static t_list	*hidden = NULL;
+	static t_list	*hidden;
 	char			*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	if (read(fd, &line, 0) < 0)
+	{
+		free_hidden(hidden);
+		hidden = NULL;
+		return (NULL);
+	}
 	line = NULL;
 	read_and_hidden(fd, &hidden);
 	if (hidden == NULL)
@@ -49,7 +55,7 @@ void	read_and_hidden(int fd, t_list **hidden)
 		if (buf == NULL)
 			return ;
 		readed = (int)read(fd, buf, BUFFER_SIZE);
-		if ((*hidden == NULL && readed == 0) || readed == -1)
+		if ((*hidden == NULL && readed == 0) || readed < 0)
 		{
 			free(buf);
 			return ;
@@ -152,7 +158,7 @@ void	clean_hidden(t_list **hidden)
 }
 
 /*
-#include <stdio.h>
+ #include <stdio.h>
 #include <fcntl.h>
 
 int	main()
@@ -161,14 +167,19 @@ int	main()
 	char	*buff;
 
 	fd = open("file01.txt", O_RDONLY);
-	while (1)
-	{
-		buff = get_next_line(fd);
-		printf("%s", buff);
-		if (buff == NULL)	
-			break;
-		free(buff);
-	}
+	// while (1)
+	// {
+	buff = get_next_line(fd);
+	printf("%s", buff);
+	close(fd);
+	buff = get_next_line(fd);
+	printf("%s", buff);
+	// if (buff == NULL)	
+	// 	break;
+	free(buff);
+	// }
 	return (0);
-}	
+}
+
+
 */
